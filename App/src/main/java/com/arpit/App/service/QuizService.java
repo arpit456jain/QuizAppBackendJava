@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.arpit.App.Dao.QuizDao;
-import com.arpit.model.DropDownVO;
 import com.arpit.model.Question;
 import com.arpit.model.QuestionVO;
 import com.arpit.model.Quiz;
@@ -68,21 +67,6 @@ public class QuizService {
 		return score;
 	}
 
-	public List<DropDownVO> getCategory() {
-		List<String> category = questionInterface.getAllDistinctCategory();
-		int i=1;
-		List<DropDownVO> categoryVO = new ArrayList<DropDownVO>();
-		for(String s : category)
-		{
-			DropDownVO item = new DropDownVO();
-			item.setId(i);
-			item.setName(s);
-			i++;
-			
-			categoryVO.add(item);
-		}
-		return categoryVO;
-	}
 	
 
 }

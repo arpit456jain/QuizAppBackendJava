@@ -19,4 +19,7 @@ public interface QuestionInterface extends JpaRepository<Question,Integer>	{
 
 	@Query(value = "select distinct(category)  from question " ,nativeQuery = true)
 	List<String> getAllDistinctCategory();
+
+	@Query(value = "select distinct(difficulty_level )  from question" ,nativeQuery = true)
+	List<String> getDifficultyLevel();
 }
