@@ -14,6 +14,9 @@ public interface QuestionInterface extends JpaRepository<Question,Integer>	{
 
 	List<Question> findByCategory(String category);
 
-	@Query(value = "select * from question where category=:category order by RANDOM() limit :noOfQuestion" ,nativeQuery = true)
-	List<Question> findRandomQuestionByCategory(String category, int noOfQuestion);
+	@Query(value = "select * from question where category=:category and difficulty_level = :difficulty order by RANDOM() limit :noOfQuestion" ,nativeQuery = true)
+	List<Question> findRandomQuestionByCategoryAndDifficuly(String category, int noOfQuestion,String difficulty);
+
+	@Query(value = "select distinct(category)  from question " ,nativeQuery = true)
+	List<String> getAllDistinctCategory();
 }

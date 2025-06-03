@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.arpit.App.service.QuizService;
+import com.arpit.model.DropDownVO;
 import com.arpit.model.Quiz;
 import com.arpit.model.QuizVO;
 import com.arpit.model.ResponseVO;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("quiz")
 public class QuizController {
@@ -28,9 +31,9 @@ public class QuizController {
 	QuizService quizService;
 	
 	@PostMapping("create")
-	public ResponseEntity<String> create(@RequestParam String category,@RequestParam int noOfQuestion,@RequestParam String title)
+	public ResponseEntity<String> create(@RequestParam String difficulty,@RequestParam String category,@RequestParam int noOfQuestion,@RequestParam String title)
 	{
-		String responseBody = quizService.createQuiz(category,noOfQuestion,title);
+		String responseBody = quizService.createQuiz(category,noOfQuestion,title,difficulty);
 		return new ResponseEntity<String>(responseBody,HttpStatus.CREATED);
 	}
 	
@@ -50,5 +53,12 @@ public class QuizController {
 		if(score>4)
 			result = "pass";
 		return result;
+	}
+	
+	@GetMapping("getCategory")
+	public ResponseEntity<?> getCategory()
+	{
+		List<DropDownVO> distinctCategory = quizService.getCategory();
+		return new ResponseEntity<>(distinctCategory,HttpStatus.OK);
 	}
 }

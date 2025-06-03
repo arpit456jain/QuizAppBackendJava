@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.arpit.App.Dao.QuizDao;
+import com.arpit.model.DropDownVO;
 import com.arpit.model.Question;
 import com.arpit.model.QuestionVO;
 import com.arpit.model.Quiz;
@@ -23,9 +24,9 @@ public class QuizService {
 	@Autowired
 	private QuestionInterface questionInterface;
 	
-	public String createQuiz(String category, int noOfQuestion, String title) {
+	public String createQuiz(String category, int noOfQuestion, String title , String difficulty) {
 		
-		List<Question> questions = questionInterface.findRandomQuestionByCategory(category,noOfQuestion);
+		List<Question> questions = questionInterface.findRandomQuestionByCategoryAndDifficuly(category,noOfQuestion,difficulty);
 		if(questions.isEmpty())
 			return "No Question found with this category";
 		Quiz quiz = new Quiz(title,questions);
@@ -65,6 +66,22 @@ public class QuizService {
 		}
 		
 		return score;
+	}
+
+	public List<DropDownVO> getCategory() {
+		List<String> category = questionInterface.getAllDistinctCategory();
+		int i=1;
+		List<DropDownVO> categoryVO = new ArrayList<DropDownVO>();
+		for(String s : category)
+		{
+			DropDownVO item = new DropDownVO();
+			item.setId(i);
+			item.setName(s);
+			i++;
+			
+			categoryVO.add(item);
+		}
+		return categoryVO;
 	}
 	
 
