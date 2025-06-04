@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.arpit.App.service.QuizService;
-
+import com.arpit.model.AllQuizVO;
 import com.arpit.model.QuizVO;
 import com.arpit.model.ResponseVO;
 
@@ -35,11 +35,19 @@ public class QuizController {
 		return new ResponseEntity<String>(responseBody,HttpStatus.CREATED);
 	}
 	
-	@GetMapping("getQuiz")
-	public ResponseEntity<QuizVO> getQuiz(@RequestParam int quizID)
+	@GetMapping("getAllQuiz")
+	public ResponseEntity<List<AllQuizVO>> getAllQuiz()
 	{
 		
-		QuizVO quiz = quizService.getQuiz(quizID);
+		List<AllQuizVO> allQuiz = quizService.getAllQuiz();
+		return new ResponseEntity<List<AllQuizVO>>(allQuiz,HttpStatus.OK);
+	}
+	
+	@GetMapping("getQuizById")
+	public ResponseEntity<QuizVO> getQuizById(@RequestParam int quizID)
+	{
+		
+		QuizVO quiz = quizService.getQuizById(quizID);
 		return new ResponseEntity<QuizVO>(quiz,HttpStatus.OK);
 	}
 	

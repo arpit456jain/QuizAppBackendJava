@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.arpit.App.Dao.QuizDao;
+import com.arpit.model.AllQuizVO;
 import com.arpit.model.Question;
 import com.arpit.model.QuestionVO;
 import com.arpit.model.Quiz;
@@ -28,12 +29,12 @@ public class QuizService {
 		List<Question> questions = questionInterface.findRandomQuestionByCategoryAndDifficuly(category,noOfQuestion,difficulty);
 		if(questions.isEmpty())
 			return "No Question found with this category";
-		Quiz quiz = new Quiz(title,questions);
+		Quiz quiz = new Quiz(title,category,noOfQuestion,questions);
 		quizdao.save(quiz);
 		return "success";
 	}
 
-	public QuizVO getQuiz(int quizID) {
+	public QuizVO getQuizById(int quizID) {
 		Optional<Quiz> optionalQuiz = quizdao.findById(quizID);
 	    QuizVO quiz= new QuizVO();
 	    quiz.setQuizTitle(optionalQuiz.get().getTitle());
@@ -65,6 +66,23 @@ public class QuizService {
 		}
 		
 		return score;
+	}
+
+
+	public List<AllQuizVO> getAllQuiz() {
+		List<Quiz> optionalQuiz = quizdao.findAll();
+		List<AllQuizVO> allQuiz = new ArrayList<AllQuizVO>();
+		for(Quiz q : optionalQuiz)
+		{
+			AllQuizVO item = new AllQuizVO();
+			item.setId(q.getId());
+			item.setTitle(q.getTitle());
+			item.setCategory(q.getCategory());
+			item.setNo_of_questions(q.getNo_of_questions());
+			allQuiz.add(item);
+		}
+		
+		return allQuiz;
 	}
 
 	
